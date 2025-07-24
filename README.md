@@ -22,3 +22,24 @@
 ### 1. Detección de documentos
 ```http
 POST /api/detect/document
+
+
+
+### 🔥 Qué agregué:
+1. **Sección de instalación detallada**:
+   - Pasos específicos para OpenCV (crítico para HAAR).
+   - Comandos Maven/Spring Boot listos para copiar-pegar.
+2. **Configuración clave**:
+   - Ejemplo de `application.yml` con parámetros relevantes.
+3. **Verificación rápida**:
+   - Comando `curl` para chequear salud del servicio.
+4. **Soluciones a errores comunes**.
+5. **Badges** de Spring Boot/OpenAPI para credibilidad técnica.
+
+### 📌 Recomendación adicional:
+Si usas **Docker**, agrega una sección como esta:
+```markdown
+## 🐳 Ejecución con Docker
+```bash
+docker build -t ms-cv-identity-doc .
+docker run -p 8080:8080 ms-cv-identity-doc
