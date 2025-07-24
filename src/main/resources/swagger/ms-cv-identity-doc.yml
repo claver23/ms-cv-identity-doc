@@ -1,0 +1,324 @@
+openapi: 3.0.3
+info:
+  title: ms-cv-identity-doc
+  version: 1.0.0
+  description: |
+    This is an API that generates datasets and loads HAAR models for document detection.
+    
+    For DNI  (Under research) , documentation see:
+    
+    [Types of DNI in Peru](https://oficinasreniec.pe/tipos-de-dni/)
+    
+    For Passport  (Under research) , not avaiable yet:
+    
+    [Types of Passport in Peru](https://www.gob.pe/161-tipos-de-pasaporte)
+    
+    
+    For CE (Carné de Extranjería) documentation, see:
+    
+    [Valid documents for foreign residents in Peru](https://dgrs.unmsm.edu.pe/2023/05/15/cuales-son-los-documentos-validos-para-personas-extranjeras-que-residen-en-el-peru/)
+tags:
+  - name: detect
+    description: It's all detecting documents
+  - name: generate
+    description: It's all about generating sample datasets
+paths:
+  /detect/document:
+    post:
+      summary: Detects and differentiates a given document
+      tags:
+        - detect
+      requestBody:
+        description: Upload a document file for detection (PDF, image, etc.)
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DetectDocumentRequest'
+      responses:
+        "200":
+          description: Detects document successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "405":
+          description: Method Not Allowed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /generate-doc/dni:
+    post:
+      summary: Generates DNI sample documents for training model
+      tags:
+        - generate
+      requestBody:
+        description: Load keys request
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenerateDNIRequest'
+      responses:
+        "200":
+          description: Decryption successful.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "405":
+          description: Method Not Allowed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /generate-doc/passport:
+    post:
+      summary: Generates Passport sample documents for training model
+      tags:
+        - generate
+      requestBody:
+        description: Load keys request
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GeneratePassportRequest'
+      responses:
+        "200":
+          description: Decryption successful.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "405":
+          description: Method Not Allowed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /generate-doc/ce:
+    post:
+      summary: Generates CE sample documents for training model
+      tags:
+        - generate
+      requestBody:
+        description: Load keys request
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenerateCERequest'
+      responses:
+        "200":
+          description: Decryption successful.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "405":
+          description: Method Not Allowed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    # --- Document Detection ---
+    DetectDocumentRequest:
+      type: object
+      required:
+        - file
+      properties:
+        file:
+          type: string
+          format: binary
+          description: Document file to detect (PDF, JPG, PNG). Max 10MB.
+          maxLength: 10485760  # 10MB in bytes
+
+    # --- Document Generation Requests ---
+    GenerateDNIRequest:
+      type: object
+      required:
+        - dniType
+        - amount
+      properties:
+        dniType:
+          $ref: '#/components/schemas/DniType'
+        amount:
+          type: integer
+          minimum: 1
+          maximum: 5000
+          example: 3000
+          description: Number of documents to generate.
+
+    GeneratePassportRequest:
+      type: object
+      required:
+        - passportType
+        - amount
+      properties:
+        passportType:
+          $ref: '#/components/schemas/PassportType'
+        amount:
+          type: integer
+          minimum: 1
+          maximum: 5000
+          example: 3000
+          description: Number of documents to generate.
+
+    GenerateCERequest:
+      type: object
+      required:
+        - ceType
+        - amount
+      properties:
+        ceType:
+          $ref: '#/components/schemas/CEType'
+        amount:
+          type: integer
+          minimum: 1
+          maximum: 5000
+          example: 3000
+          description: Number of documents to generate.
+
+    # --- Enums ---
+    DniType:
+      type: string
+      enum:
+        - AZUL
+        - ELECTRONICO
+        - AMARILLO
+      description: Type of DNI document to generate.
+      example: AZUL
+
+    PassportType:
+      type: string
+      enum:
+        - ORDINARIO
+        - ESPECIAL
+        - DIPLOMATICO
+      description: Type of passport to generate.
+      example: ORDINARIO
+
+    CEType:
+      type: string
+      enum:
+        - CE
+        - CPP
+        - PTP
+      description: Type of CE (Carné de Extranjería) to generate.
+      example: CE
+
+    # --- Responses ---
+    SuccessResponse:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          example: true
+        status:
+          type: string
+          example: "200 OK"
+        message:
+          type: string
+          example: "Document detected successfully."
+        timestamp:
+          type: string
+          format: date-time
+          example: "2023-10-25T12:00:00Z"
+        data:
+          type: object
+          description: Response payload (structure varies by endpoint).
+
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+          example: "VALIDATION_ERROR"
+        message:
+          type: string
+          example: "Invalid file format. Allowed: PDF, JPG, PNG."
+        timestamp:
+          type: string
+          format: date-time
+          example: "2023-10-25T12:00:00Z"
+        errors:
+          type: array
+          items:
+            type: string
+          example: ["File exceeds 10MB limit."]

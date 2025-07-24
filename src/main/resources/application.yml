@@ -1,0 +1,13 @@
+application:
+  name: ms-cv-identity-doc
+  version: 0.0.1
+company:
+  name: ETLions
+server:
+  port: 9091
+
+spring:
+  application:
+    name: ms-cv-identity-doc
+  banner:
+    location: classpath:/banner/banner.txt
