@@ -15,11 +15,8 @@ import java.time.LocalDateTime;
 @Controller
 public class GenerateOpenApiAdapter implements GenerateApi {
 
-
-
     @Override
     public ResponseEntity<SuccessResponse> generateDocDniPost(GenerateDNIRequest generateDNIRequest) {
-
         return ResponseEntity.ok(SuccessResponse.builder()
                 .isSuccess(true)
                 .message("Endpoint working")

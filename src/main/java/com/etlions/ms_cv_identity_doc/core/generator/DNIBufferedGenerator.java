@@ -1,11 +1,11 @@
-package com.etlions.ms_cv_identity_doc.core;
+package com.etlions.ms_cv_identity_doc.core.generator;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Random;
 
-public class DniImageGenerator {
+public class DNIBufferedGenerator {
     private static final String[] NOMBRES = {"Ana Gómez", "Juan Pérez", "María López", "Carlos Ruiz"};
     private static final Random RANDOM = new Random();
     private static final String OUTPUT_DIR = "dataset/";
