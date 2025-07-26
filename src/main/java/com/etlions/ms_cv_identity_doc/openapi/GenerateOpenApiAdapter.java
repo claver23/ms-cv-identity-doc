@@ -22,7 +22,7 @@ public class GenerateOpenApiAdapter implements GenerateApi {
 
         return ResponseEntity.ok(SuccessResponse.builder()
                 .isSuccess(true)
-                .message("AAA LA PTM SI FUNCIONA")
+                .message("Endpoint working")
                 .data(generateDNIRequest)
                 .timestamp(LocalDateTime.now())
                 .build());
