@@ -25,6 +25,7 @@ tags:
 paths:
   /detect/document:
     post:
+      operationId: detectDocument
       summary: Detects and differentiates a given document
       tags:
         - detect
@@ -68,6 +69,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
   /generate-doc/dni:
     post:
+      operationId: generateDniDocuments
       summary: Generates DNI sample documents for training model
       tags:
         - generate
@@ -111,6 +113,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
   /generate-doc/passport:
     post:
+      operationId: generatePassportDocuments
       summary: Generates Passport sample documents for training model
       tags:
         - generate
@@ -154,6 +157,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
   /generate-doc/ce:
     post:
+      operationId: generateCeDocuments
       summary: Generates CE sample documents for training model
       tags:
         - generate

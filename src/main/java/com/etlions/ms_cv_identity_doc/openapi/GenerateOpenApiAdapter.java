@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class GenerateOpenApiAdapter implements GenerateApi {
 
     @Override
-    public ResponseEntity<SuccessResponse> generateDocDniPost(GenerateDNIRequest generateDNIRequest) {
+    public ResponseEntity<SuccessResponse> generateDniDocuments(GenerateDNIRequest generateDNIRequest) {
         return ResponseEntity.ok(SuccessResponse.builder()
                 .isSuccess(true)
                 .message("Endpoint working")
