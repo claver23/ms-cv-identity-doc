@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 @Slf4j
@@ -18,7 +19,7 @@ import java.util.function.Predicate;
 @Builder(builderClassName = "DNIDataModelBuilder", buildMethodName = "buildInternal")
 public class DNIDataModel {
     /* Detalle Parte superior */
-    private String isDuplicate;
+    private Boolean isDuplicate;
     private String dni;
     private String verifierCode;
 
@@ -58,25 +59,31 @@ public class DNIDataModel {
 
         public DNIDataModel build() {
             DNIDataModel model = this.buildInternal();
-
-            if (!isOACIEligible(model)) {
-                throw new IncompleteOACIDataException(String.format(
-                        "❌ No se pudo generar el modelo OACI: Faltan campos obligatorios. dni=%s, firstLastName=%s, firstName=%s, birthDate=%s, expirationDate=%s, sex=%s",
-                        model.getDni(),
-                        model.getFirstLastName(),
-                        model.getFirstName(),
-                        model.getBirthDate(),
-                        model.getExpirationDate(),
-                        model.getSex()
-                ));
-            }
-
-            model.setOaciDataModel(OACIDataLoader.generateOACI(model));
-            return model;
+            return Optional.of(model)
+                    .filter(this::validateOaciConditions)
+                    .stream()
+                    .peek(this::generateOaciData)
+                    .findFirst()
+                    .orElseThrow(() -> new IncompleteOACIDataException(buildExceptionMessage(model)));
         }
 
-        private boolean isOACIEligible(DNIDataModel model) {
-            return oaciConditions.stream().allMatch(predicate -> predicate.test(model));
+        private boolean validateOaciConditions(DNIDataModel model) {
+            return oaciConditions.stream().allMatch(p -> p.test(model));
+        }
+
+        private void generateOaciData(DNIDataModel model) {
+            model.setOaciDataModel(OACIDataLoader.generateOACI(model));
+        }
+
+        private String buildExceptionMessage(DNIDataModel model) {
+            return new StringBuilder("No se pudo generar el modelo OACI: Faltan campos obligatorios. ")
+                    .append("dni=").append(model.getDni()).append(", ")
+                    .append("firstLastName=").append(model.getFirstLastName()).append(", ")
+                    .append("firstName=").append(model.getFirstName()).append(", ")
+                    .append("birthDate=").append(model.getBirthDate()).append(", ")
+                    .append("expirationDate=").append(model.getExpirationDate()).append(", ")
+                    .append("sex=").append(model.getSex())
+                    .toString();
         }
     }
 }
