@@ -65,7 +65,7 @@ public class DNIBufferedGenerator {
 
             /* ABOVE SECTION */
 
-
+                //TODO: Implementar la sección de arriba con los datos del DNI
 
             /* MID LEFT SECTION */
             g2d.drawString(dniDataModel.getFirstLastName(), 225, 110);
@@ -83,7 +83,7 @@ public class DNIBufferedGenerator {
 
             /* OACI SECTION */
 
-
+            //TODO: Implementar la sección OACI con los datos del DNI
 
 
             // Aplicar transformaciones (rotación y traslación)
