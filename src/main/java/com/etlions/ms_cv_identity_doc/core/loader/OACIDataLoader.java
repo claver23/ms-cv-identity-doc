@@ -3,11 +3,13 @@ package com.etlions.ms_cv_identity_doc.core.loader;
 import com.etlions.ms_cv_identity_doc.core.model.DNIDataModel;
 import com.etlions.ms_cv_identity_doc.core.model.OACIDataModel;
 import com.etlions.ms_cv_identity_doc.core.util.OACIConstants;
+import lombok.extern.slf4j.Slf4j;
 
 import java.text.Normalizer;
 import java.time.LocalDate;
 import java.util.Random;
 
+@Slf4j
 public class OACIDataLoader {
     private static final Random RANDOM = new Random();
 
@@ -20,8 +22,12 @@ public class OACIDataLoader {
         String fullName = buildFullName(dniDataModel);
 
         String line1 = buildLine1(dniDataModel, checkDigits[0]);
+        log.info("Generated first line of OACI: {}", line1);
         String line2 = buildLine2(dniDataModel, checkDigits[1], checkDigits[2], checkDigits[3]);
+        log.info("Generated second line of OACI: {}", line2);
         String line3 = buildLine3(fullSurname, fullName);
+        log.info("Generated third line of OACI: {}", line3);
+
 
         OACIDataModel oaci = new OACIDataModel();
         oaci.setFirstLine(line1.split(""));
@@ -66,7 +72,7 @@ public class OACIDataLoader {
         return padRight(baseLine2, OACIConstants.MRZ_LINE_LENGTH - 1, OACIConstants.FILLER_CHAR) + check4;
     }
 
-    private static String buildLine3(String fullSurname, String fullName) {
+    private static String  buildLine3(String fullSurname, String fullName) {
         char[] fillers = {OACIConstants.FILLER_CHAR, OACIConstants.FILLER_CHAR};
         return padRight(
                 fullSurname + String.valueOf(fillers) + fullName,
@@ -87,10 +93,8 @@ public class OACIDataLoader {
     }
 
     private static String normalizeOACI(String input) {
-        if (input == null) return "";
-        return Normalizer.normalize(input, Normalizer.Form.NFD)
+        return input == null ? "" : Normalizer.normalize(input, Normalizer.Form.NFD)
                 .replaceAll("\\p{M}", "")
-                .replaceAll("[^A-Z<]", "")
                 .replaceAll(" ",  String.valueOf(OACIConstants.FILLER_CHAR))
                 .toUpperCase();
     }

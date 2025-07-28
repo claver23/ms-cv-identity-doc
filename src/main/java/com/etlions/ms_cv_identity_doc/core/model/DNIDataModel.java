@@ -25,7 +25,7 @@ public class DNIDataModel {
 
     /* Detalle Parte media izquierda */
 
-    private InputStream photo1;
+    private byte[] photo1;
     private String firstLastName;
     private String secondLastName;
     private String firstName;
@@ -36,11 +36,11 @@ public class DNIDataModel {
     private String maritalStatus;
 
     /* Detalle Parte media izquierda */
-    private InputStream signature;
+    private byte[] signature;
     private LocalDate registrationDate;
     private LocalDate emissionDate;
     private LocalDate expirationDate;
-    private InputStream photo2;
+    private byte[] photo2;
 
     /* Detalle Parte inferior */
     private OACIDataModel oaciDataModel;

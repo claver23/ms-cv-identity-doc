@@ -4,11 +4,14 @@ import com.etlions.ms_cv_identity_doc.core.model.DNIDataModel;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import static com.etlions.ms_cv_identity_doc.core.util.Constant.*;
 
@@ -22,15 +25,13 @@ public class DNIBufferedGenerator {
 
         DNIDataModel dniDataModel = dniSampleDataLoader.loadSingleSampleData();
 
-
-        // Cargar la plantilla según el tipo de DNI
         String templateFile;
         switch (dniType.toUpperCase()) {
             case "AZUL":
-                templateFile = "doc-template/dni/dni-azul.png";
+                templateFile = "doc-template/dni/dni-azul-clean.png";
                 break;
             case "AMARILLO":
-                templateFile = "doc-template/dni/dni-amarillo.png";
+                templateFile = "doc-template/dni/dni-amarillo-clean.png";
                 break;
             case "ELECTRONICO":
                 templateFile = "doc-template/dni/dni-electronico.png";
@@ -57,17 +58,35 @@ public class DNIBufferedGenerator {
             Graphics2D g2d = imagen.createGraphics();
             g2d.drawImage(plantilla, 0, 0, null);
 
-            // Configurar fuente y color
-            g2d.setFont(new Font("Arial", Font.BOLD, 20));
-            g2d.setColor(Color.BLACK);
-
             // Dibujar texto en posiciones específicas (ajusta según la plantilla)
 
-            /* ABOVE SECTION */
 
-                //TODO: Implementar la sección de arriba con los datos del DNI
+            /* ABOVE SECTION */
+            g2d.setColor(new Color(0x512D2F));
+
+            Optional.ofNullable(dniDataModel.getIsDuplicate())
+                    .filter(Boolean::booleanValue)
+                    .ifPresent(isDup -> {
+                        g2d.setFont(new Font("Arial", Font.BOLD, 18));
+                        g2d.drawString("DUPLICADO", 50, 45);
+                    });
+            g2d.setFont(new Font("Arial", Font.BOLD, 23));
+            g2d.drawString(dniDataModel.getDni(), 646, 47);
 
             /* MID LEFT SECTION */
+            g2d.setFont(new Font("Arial", Font.BOLD, 22));
+            AffineTransform originalTransform = g2d.getTransform();
+            g2d.rotate(Math.toRadians(90), 9, 80);
+            g2d.drawString(dniDataModel.getDni().chars()
+                    .mapToObj(c -> String.valueOf((char) c))
+                    .collect(Collectors.joining("   ")), 9, 80);
+            g2d.setTransform(originalTransform);
+
+            g2d.setFont(new Font("Arial", Font.PLAIN, 20));
+            g2d.drawString(dniDataModel.getFirstLastName(), 75, 325);
+
+            g2d.setFont(new Font("Arial", Font.BOLD, 20));
+            g2d.setColor(Color.BLACK);
             g2d.drawString(dniDataModel.getFirstLastName(), 225, 110);
             g2d.drawString(dniDataModel.getSecondLastName(), 225, 170);
             g2d.drawString(dniDataModel.getFirstName() + " " + dniDataModel.getSecondName(), 225, 225);
@@ -79,11 +98,16 @@ public class DNIBufferedGenerator {
             /* MID RIGHT SECTION */
             g2d.drawString(dniDataModel.getRegistrationDate().format(DNI_DETAIL_DATE_FORMATTER), 650, 120);
             g2d.drawString(dniDataModel.getEmissionDate().format(DNI_DETAIL_DATE_FORMATTER), 650, 167);
+            g2d.setColor(new Color(0x512D2F));
             g2d.drawString(dniDataModel.getExpirationDate().format(DNI_DETAIL_DATE_FORMATTER), 650, 210);
 
             /* OACI SECTION */
+            g2d.setColor(Color.BLACK);
+            g2d.setFont(new Font("Monospaced", Font.BOLD, 22));
+            g2d.drawString(String.join(" ", dniDataModel.getOaciDataModel().getFirstLine()), 15, 375);
+            g2d.drawString(String.join(" ", dniDataModel.getOaciDataModel().getSecondLine()), 15, 400);
+            g2d.drawString(String.join(" ", dniDataModel.getOaciDataModel().getThirdLine()), 15, 425);
 
-            //TODO: Implementar la sección OACI con los datos del DNI
 
 
             // Aplicar transformaciones (rotación y traslación)
