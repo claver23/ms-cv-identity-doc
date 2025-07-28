@@ -14,7 +14,7 @@
 ## 🔍 Documentación relevante
 | Documento | Enlace | Estado |
 |-----------|--------|--------|
-| DNI Perú | [Tipos de DNI](https://oficinasreniec.pe/tipos-de-dni/) | ⚠️ Bajo investigación |
+| DNI Perú | [Tipos de DNI](https://oficinasreniec.pe/tipos-de-dni/) | ⚠️ En progreso |
 | Pasaporte Perú | [Tipos de pasaporte](https://www.gob.pe/161-tipos-de-pasaporte) | ❌ No disponible aún |
 | CE (Extranjería) | [Documentos válidos](https://dgrs.unmsm.edu.pe/2023/05/15/cuales-son-los-documentos-validos-para-personas-extranjeras-que-residen-en-el-peru/) | ✅ Confirmado |
 
