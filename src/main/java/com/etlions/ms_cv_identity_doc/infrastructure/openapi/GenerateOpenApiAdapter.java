@@ -1,4 +1,4 @@
-package com.etlions.ms_cv_identity_doc.openapi;
+package com.etlions.ms_cv_identity_doc.infrastructure.openapi;
 
 import com.etlions.openapicodegen.api.v1.GenerateApi;
 import com.etlions.openapicodegen.dto.GenerateDNIRequest;

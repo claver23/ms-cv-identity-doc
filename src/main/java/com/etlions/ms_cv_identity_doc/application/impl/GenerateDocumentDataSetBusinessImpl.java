@@ -1,6 +1,6 @@
-package com.etlions.ms_cv_identity_doc.business.impl;
+package com.etlions.ms_cv_identity_doc.application.impl;
 
-import com.etlions.ms_cv_identity_doc.business.GenerateDocumentDataSetBusiness;
+import com.etlions.ms_cv_identity_doc.application.GenerateDocumentDataSetBusiness;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
