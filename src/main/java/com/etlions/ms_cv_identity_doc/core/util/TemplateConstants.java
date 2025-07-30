@@ -12,9 +12,11 @@ import javax.imageio.ImageIO;
 public final class TemplateConstants {
 
     // Standard dimensions (public constants)
-    public static final int DNI_PHOTO_WIDTH = 200;  // 35mm at 300 DPI
-    public static final int DNI_PHOTO_HEIGHT = 250;
+    public static final int DNI_FIRST_PHOTO_WIDTH = 200;  // 35mm at 300 DPI
+    public static final int DNI_FIRST_PHOTO_HEIGHT = 250;
 
+    public static final int DNI_SECOND_PHOTO_WIDTH = 80;  // 35mm at 300 DPI
+    public static final int DNI_SECOND_PHOTO_HEIGHT = 100;
     // Image storage
     private static final byte[] TEMPLATE_BYTES;
     private static final BufferedImage TEMPLATE_IMAGE;
@@ -78,10 +80,10 @@ public final class TemplateConstants {
     }
 
     private static void validateTemplateDimensions(BufferedImage image) {
-        if (image.getWidth() < DNI_PHOTO_WIDTH || image.getHeight() < DNI_PHOTO_HEIGHT) {
+        if (image.getWidth() < DNI_FIRST_PHOTO_WIDTH || image.getHeight() < DNI_FIRST_PHOTO_HEIGHT) {
             throw new IllegalStateException(String.format(
                     "Template must be at least %dx%d pixels",
-                    DNI_PHOTO_WIDTH, DNI_PHOTO_HEIGHT
+                    DNI_FIRST_PHOTO_WIDTH, DNI_FIRST_PHOTO_HEIGHT
             ));
         }
     }

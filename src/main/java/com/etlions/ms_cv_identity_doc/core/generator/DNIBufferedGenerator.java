@@ -64,9 +64,6 @@ public class DNIBufferedGenerator implements CommandLineRunner {
             Graphics2D g2d = imagen.createGraphics();
             g2d.drawImage(plantilla, 0, 0, null);
 
-
-
-
             /* ABOVE SECTION */
             g2d.setColor(new Color(0x512D2F));
 
@@ -109,6 +106,9 @@ public class DNIBufferedGenerator implements CommandLineRunner {
             g2d.drawString(dniDataModel.getEmissionDate().format(DNI_DETAIL_DATE_FORMATTER), 650, 167);
             g2d.setColor(new Color(0x512D2F));
             g2d.drawString(dniDataModel.getExpirationDate().format(DNI_DETAIL_DATE_FORMATTER), 650, 210);
+
+            g2d.drawImage(TemplateConstants.bytesToImage(dniDataModel.getPhoto2()) , 700, 240, null);
+
 
             /* OACI SECTION */
             g2d.setColor(Color.BLACK);
